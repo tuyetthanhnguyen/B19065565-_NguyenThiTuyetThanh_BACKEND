@@ -36,5 +36,18 @@ class ContactService {
             name: { $regex: new RegExp(name), $options: "i" },
         });
     }
+    async delete(id) {
+        const result = await this.Contact.findOneAndDelete({
+            _id: ObjectId.isValid(id) ? new ObjectId(id) : null,
+        });
+        return result.value;
+    }
+    async findFavorite() {
+        return await this.find({ favorite: true });
+    }
+    async deleteAll() {
+        const result = await this.Contact.deleteMany({});
+        return result.deletedCount;
+    }
 }
 module.exports = ContactService;
